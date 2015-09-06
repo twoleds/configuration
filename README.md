@@ -4,6 +4,10 @@ A library for parsing and building hierarchical configuration files. Format of
 configuration files is inspired by nginx configuration files and it's partially
 compatible.
 
+## Download
+
+* [Version 1.0](https://github.com/twoleds/configuration/blob/1.0/dist/twoleds-configuration-1.0.jar?raw=true) - 2015-09-06
+
 ## Example
 ```
 # Example configuration of an elasticsearch database
