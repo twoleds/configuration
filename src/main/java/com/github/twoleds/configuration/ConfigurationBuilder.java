@@ -23,6 +23,7 @@ public class ConfigurationBuilder implements Closeable, Flushable {
             this.writer.write('#');
             this.writer.write(' ');
             this.writer.write(comment);
+            this.writer.write('\n');
         }
         return this;
     }
@@ -183,6 +184,9 @@ public class ConfigurationBuilder implements Closeable, Flushable {
             for (int i = 0, l = value.length(); i < l; i++) {
                 char c = value.charAt(i);
                 switch (c) {
+                    case '\0':
+                        this.writer.write("\\0");
+                        break;
                     case '\b':
                         this.writer.write("\\b");
                         break;
@@ -232,8 +236,7 @@ public class ConfigurationBuilder implements Closeable, Flushable {
             if ((c >= 'a') && (c <= 'z')) continue;
             if ((c >= 'A') && (c <= 'Z')) continue;
             if ((c >= '0') && (c <= '9')) continue;
-            if ((c == '_') || (c == '/') || (c == '.')) continue;
-            if ((c == '[') || (c == ']') || (c == ':')) continue;
+            if ((c == '-') || (c == '.') || (c == '_')) continue;
             return false;
         }
         return true;

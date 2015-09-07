@@ -118,7 +118,7 @@ public class ConfigurationParser implements Closeable {
 
                     case VALUE_DIRECT:
 
-                        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')) {
+                        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || (c == '-') || (c == '.') || (c == '_')) {
                             this.buffer.append((char)c);
                             break;
                         }
@@ -181,6 +181,9 @@ public class ConfigurationParser implements Closeable {
                     case VALUE_ESCAPE:
 
                         switch ((char)c) {
+                            case '0':
+                                this.buffer.append('\0');
+                                break;
                             case '"':
                                 this.buffer.append('"');
                                 break;
@@ -231,7 +234,7 @@ public class ConfigurationParser implements Closeable {
                             break;
                         }
 
-                        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')) {
+                        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || (c == '-') || (c == '.') || (c == '_')) {
                             this.state = State.VALUE_DIRECT;
                             this.buffer.setLength(0);
                             this.buffer.append((char)c);
