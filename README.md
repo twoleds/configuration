@@ -6,7 +6,8 @@ compatible.
 
 ## Download
 
-* [Version 1.0](https://github.com/twoleds/configuration/blob/1.0/dist/twoleds-configuration-1.0.jar?raw=true) - 2015-09-06
+* [Version 1.1](https://github.com/twoleds/configuration/blob/1.1/dist/twoleds-configuration-1.1.jar?raw=true) - 2015-09-09
+* ~~[Version 1.0](https://github.com/twoleds/configuration/blob/1.0/dist/twoleds-configuration-1.0.jar?raw=true) - 2015-09-06~~
 
 ## Example
 ```
