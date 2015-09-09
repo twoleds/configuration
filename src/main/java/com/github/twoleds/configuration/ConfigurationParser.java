@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigurationParser implements Closeable {
+public class ConfigurationParser implements AutoCloseable {
 
     private final Reader reader;
     private final StringBuffer buffer;
@@ -23,11 +23,15 @@ public class ConfigurationParser implements Closeable {
     }
 
     @Override
-    public void close() throws IOException {
-        this.reader.close();
+    public void close() throws ConfigurationException {
+        try {
+            this.reader.close();
+        } catch (IOException e) {
+            throw new ConfigurationException("An I/O error occurred.", e);
+        }
     }
 
-    public Configuration parse() throws IOException, ConfigurationException {
+    public Configuration parse() throws ConfigurationException {
         return this.parse("", "");
     }
 
@@ -261,7 +265,7 @@ public class ConfigurationParser implements Closeable {
 
         } catch (IOException ex) {
             throw new ConfigurationException(
-                    String.format("An I/O error on line %d at column %d.", this.line, this.column), ex
+                    String.format("An I/O error occurred on line %d at column %d.", this.line, this.column), ex
             );
         }
 
