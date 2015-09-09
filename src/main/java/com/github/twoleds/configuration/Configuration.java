@@ -16,8 +16,6 @@ public class Configuration {
     public static Configuration parse(String configuration) throws ConfigurationException {
         try (ConfigurationParser parser = new ConfigurationParser(new StringReader(configuration))) {
             return parser.parse();
-        } catch (IOException ignored) {
-            return null;
         }
     }
 
