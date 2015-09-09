@@ -239,7 +239,7 @@ public class ConfigurationBuilder implements Closeable, Flushable {
             if ((c == '-') || (c == '.') || (c == '_')) continue;
             return false;
         }
-        return true;
+        return value.length() > 0;
     }
 
 }

@@ -177,7 +177,7 @@ public class Configuration {
     }
 
     public Double getDouble(String query) {
-        return this.query(query, null);
+        return this.getDouble(query, null);
     }
 
     public Double getDouble(String query, Double defaultValue) {

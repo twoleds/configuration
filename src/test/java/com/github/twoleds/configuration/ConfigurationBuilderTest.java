@@ -256,7 +256,7 @@ public class ConfigurationBuilderTest {
         builder.close();
 
         assertEquals(
-                "test_string_empty ;\ntest_string_safe this_is_safe_string;\ntest_string_unsafe \"this is unsafe string\";\n",
+                "test_string_empty \"\";\ntest_string_safe this_is_safe_string;\ntest_string_unsafe \"this is unsafe string\";\n",
                 writer.toString()
         );
 
