@@ -19,15 +19,19 @@ public class Configuration {
         }
     }
 
-    public static Configuration parse(File file) throws IOException, ConfigurationException {
-        try (ConfigurationParser parser = new ConfigurationParser(new FileReader(file))) {
+    public static Configuration parse(File file) throws ConfigurationException {
+        try (ConfigurationParser parser = new ConfigurationParser(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             return parser.parse();
+        } catch (IOException e) {
+            throw new ConfigurationException("An I/O error occurred.", e);
         }
     }
 
-    public static Configuration parse(URL url) throws IOException, ConfigurationException {
+    public static Configuration parse(URL url) throws ConfigurationException {
         try (ConfigurationParser parser = new ConfigurationParser(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8))) {
             return parser.parse();
+        } catch (IOException e) {
+            throw new ConfigurationException("An I/O error occurred.", e);
         }
     }
 
