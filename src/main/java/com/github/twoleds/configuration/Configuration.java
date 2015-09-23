@@ -82,8 +82,8 @@ public class Configuration {
 
     /**
      * It finds and returns a sub-tree of this configuration. If the sub-tree
-     * cannot be found by the specified ```query``` parameter it returns
-     * a ```null``` value.
+     * cannot be found by the specified <code>query</code> parameter it returns
+     * a <code>null</code> value.
      */
     public Configuration query(String query) {
         return this.query(query, Function.identity());
@@ -91,9 +91,9 @@ public class Configuration {
 
     /**
      * It finds, converts a returns a configuration value as a custom value.
-     * If the configuration value cannot be found by the specified ```query```
-     * parameter it returns a ```null``` value. For conversion is used the
-     * specified function from the parameter ```convertFunc```.
+     * If the configuration value cannot be found by the specified <code>query</code>
+     * parameter it returns a <code>null</code> value. For conversion is used the
+     * specified function from the parameter <code>convertFunc</code>.
      */
     public <T> T query(String query, Function<Configuration, T> convertFunc) {
         return this.query(query, convertFunc, null);
@@ -102,9 +102,9 @@ public class Configuration {
     /**
      * It finds, converts and returns a configuration value as a custom value.
      * If the configuration value cannot be found by the specified parameter
-     * ```query``` it returns a default value from the parameter
-     * ```defaultValue```. For conversion is used the specified function from
-     * the parameter ```convertFunc```.
+     * <code>query</code> it returns a default value from the parameter
+     * <code>defaultValue</code>. For conversion is used the specified function from
+     * the parameter <code>convertFunc</code>.
      */
     public <T> T query(String query, Function<Configuration, T> convertFunc, T defaultValue) {
         return this.query(query.split("/"), convertFunc, defaultValue);
@@ -189,7 +189,7 @@ public class Configuration {
     /**
      * It finds, converts and returns a configuration value as a boolean
      * value. If the configuration value cannot be found by the specified
-     * ```query``` parameter it returns the ```null``` value. If the
+     * <code>query</code> parameter it returns the <code>null</code> value. If the
      * configuration value cannot be converted to a boolean value it throws
      * a runtime exception.
      */
@@ -200,8 +200,8 @@ public class Configuration {
     /**
      * It finds, converts and returns a configuration value as a boolean
      * value. If the configuration value cannot be found by the specified
-     * ```query``` parameter it returns a default value from the parameter
-     * ```defaultValue```. If the configuration value cannot be converted
+     * <code>query</code> parameter it returns a default value from the parameter
+     * <code>defaultValue</code>. If the configuration value cannot be converted
      * to a boolean value it throws a runtime exception.
      */
     public Boolean getBoolean(String query, Boolean defaultValue) {
@@ -219,8 +219,8 @@ public class Configuration {
 
     /**
      * It finds, converts and returns a configuration value as a byte value.
-     * If the configuration value cannot be found by the specified ```query```
-     * parameter it returns the ```null``` value. If the configuration value
+     * If the configuration value cannot be found by the specified <code>query</code>
+     * parameter it returns the <code>null</code> value. If the configuration value
      * cannot be converted to a byte value it throws a runtime exception.
      */
     public Byte getByte(String query) {
@@ -229,9 +229,9 @@ public class Configuration {
 
     /**
      * It finds, converts and returns a configuration value as a byte value.
-     * If the configuration value cannot be found by the specified ```query```
+     * If the configuration value cannot be found by the specified <code>query</code>
      * parameter it returns a default value from the parameter
-     * ```defaultValue```. If the configuration value cannot be converted to
+     * <code>defaultValue</code>. If the configuration value cannot be converted to
      * a byte value it throws a runtime exception.
      */
     public Byte getByte(String query, Byte defaultValue) {
@@ -248,7 +248,7 @@ public class Configuration {
     /**
      * It finds, converts and returns a configuration value as a character
      * value. If the configuration value cannot be found by the specified
-     * ```query``` parameter it returns a ```null``` value.
+     * <code>query</code> parameter it returns a <code>null</code> value.
      */
     public Character getCharacter(String query) {
         return this.getCharacter(query, null);
@@ -257,8 +257,8 @@ public class Configuration {
     /**
      * It finds, converts and returns a configuration value as a character
      * value. If the configuration value cannot be found by the specified
-     * ```query``` parameter it returns a default value from the parameter
-     * ```defaultValue```.
+     * <code>query</code> parameter it returns a default value from the parameter
+     * <code>defaultValue</code>.
      */
     public Character getCharacter(String query, Character defaultValue) {
         return this.query(query, Configuration::getCharacter, defaultValue);
@@ -266,7 +266,7 @@ public class Configuration {
 
     /**
      * It converts and returns a configuration value as a number with double
-     * precision (```double```). If the configuration value cannot be
+     * precision (<code>double</code>). If the configuration value cannot be
      * converted to a number it throws a runtime exception.
      */
     public Double getDouble() {
@@ -275,8 +275,8 @@ public class Configuration {
 
     /**
      * It finds, converts and returns a configuration value as a number with
-     * double precision (```double```). If the configuration value cannot be
-     * found by the specified ```query``` parameter it returns the ```null```
+     * double precision (<code>double</code>). If the configuration value cannot be
+     * found by the specified <code>query</code> parameter it returns the <code>null</code>
      * value. If the configuration value cannot be converted to a number it
      * throws a runtime exception.
      */
@@ -286,9 +286,9 @@ public class Configuration {
 
     /**
      * It finds, converts and returns a configuration value as a number with
-     * double precision (```double```). If the configuration value cannot be
-     * found by the specified ```query``` parameter it returns a default value
-     * from the parameter ```defaultValue```. If the configuration value
+     * double precision (<code>double</code>). If the configuration value cannot be
+     * found by the specified <code>query</code> parameter it returns a default value
+     * from the parameter <code>defaultValue</code>. If the configuration value
      * cannot be converted to a number it throws a runtime exception.
      */
     public Double getDouble(String query, Double defaultValue) {
@@ -306,8 +306,8 @@ public class Configuration {
 
     /**
      * It finds, converts and returns a configuration value as a number with
-     * single precision (```float```). If the configuration value cannot be
-     * found by the specified ````query``` parameter it returns the ```null```
+     * single precision (<code>float</code>). If the configuration value cannot be
+     * found by the specified `<code>query</code> parameter it returns the <code>null</code>
      * value. If the configuration value cannot be converted to a number it
      * throws a runtime exception.
      */
@@ -317,9 +317,9 @@ public class Configuration {
 
     /**
      * It finds, converts and returns a configuration value as a number with
-     * single precision (```float```). If the configuration value cannot be
-     * found by the specified ```query``` parameter it returns a default value
-     * from the parameter ```defaultValue```. If the configuration value
+     * single precision (<code>float</code>). If the configuration value cannot be
+     * found by the specified <code>query</code> parameter it returns a default value
+     * from the parameter <code>defaultValue</code>. If the configuration value
      * cannot be converted to a number it throws a runtime exception.
      */
     public Float getFloat(String query, Float defaultValue) {
@@ -337,8 +337,8 @@ public class Configuration {
 
     /**
      * It finds, converts and returns a configuration value as an integer. If
-     * the configuration value cannot be found by the specified ```query```
-     * parameter it returns the ```null``` value. If the configuration value
+     * the configuration value cannot be found by the specified <code>query</code>
+     * parameter it returns the <code>null</code> value. If the configuration value
      * cannot be converted to an integer it throws a runtime exception.
      */
     public Integer getInteger(String query) {
@@ -347,8 +347,8 @@ public class Configuration {
 
     /**
      * It finds, converts and returns a configuration value as an integer.
-     * If the configuration value cannot be found by the specified ```query```
-     * parameter it returns a default value from parameter ```defaultValue```.
+     * If the configuration value cannot be found by the specified <code>query</code>
+     * parameter it returns a default value from parameter <code>defaultValue</code>.
      * If the configuration value cannot be converted to an integer it throws
      * a runtime exception.
      */
@@ -368,7 +368,7 @@ public class Configuration {
     /**
      * It finds, converts and returns a configuration value as anlong
      * integer. If the configuration value cannot be found by the specified
-     * ```query``` parameter it returns the ```null``` value. If the
+     * <code>query</code> parameter it returns the <code>null</code> value. If the
      * configuration value cannot be converted to a long integer it throws
      * a runtime exception.
      */
@@ -379,8 +379,8 @@ public class Configuration {
     /**
      * It finds, converts and returns a configuration value as a long
      * integer. If the configuration value cannot be found by the specified
-     * ```query``` parameter it returns a default value from parameter
-     * ```defaultValue```. If the configuration value cannot be converted to
+     * <code>query</code> parameter it returns a default value from parameter
+     * <code>defaultValue</code>. If the configuration value cannot be converted to
      * a long integer it throws a runtime exception.
      */
     public Long getLong(String query, Long defaultValue) {
@@ -399,7 +399,7 @@ public class Configuration {
     /**
      * It finds, converts and returns a configuration value as a short
      * integer. If the configuration value cannot be found by the specified
-     * ```query``` parameter it returns the ```null``` value. If the
+     * <code>query</code> parameter it returns the <code>null</code> value. If the
      * configuration value cannot be converted to a short integer it throws
      * a runtime exception.
      */
@@ -410,8 +410,8 @@ public class Configuration {
     /**
      * It finds, converts and returns a configuration value as a short
      * integer. If the configuration value cannot be found by the specified
-     * ```query``` parameter it returns a default value from the parameter
-     * ```defaultValue```. If the configuration value cannot be converted to
+     * <code>query</code> parameter it returns a default value from the parameter
+     * <code>defaultValue</code>. If the configuration value cannot be converted to
      * a short integer it throws a runtime exception.
      */
     public Short getShort(String query, Short defaultValue) {
@@ -428,8 +428,8 @@ public class Configuration {
 
     /**
      * It finds and returns a configuration value as a string value. If the
-     * configuration value cannot be found by the specified ```query```
-     * parameter it returns the ```null``` value. It returns the configuration
+     * configuration value cannot be found by the specified <code>query</code>
+     * parameter it returns the <code>null</code> value. It returns the configuration
      * value as-is without any conversion.
      */
     public String getString(String query) {
@@ -438,9 +438,9 @@ public class Configuration {
 
     /**
      * It finds and returns a configuration value as a string value. If the
-     * configuration value cannot be found by the specified ```query```
+     * configuration value cannot be found by the specified <code>query</code>
      * parameter it returns a default value from the parameter
-     * ```defaultValue```. It returns the configuration value as-is without
+     * <code>defaultValue</code>. It returns the configuration value as-is without
      * any conversion.
      */
     public String getString(String query, String defaultValue) {
