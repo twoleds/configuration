@@ -2,31 +2,59 @@ package com.github.twoleds.configuration;
 
 import org.junit.Test;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+
 import static org.junit.Assert.*;
 
 public class ConfigurationParserTest {
 
+    private static final String testConf = "# Example configuration of an elasticsearch database\n" +
+            "database testdb {\n" +
+            "\ttype elasticsearch;\n" +
+            "\tnode node-00 {\n" +
+            "\t\thost 192.168.1.10;\n" +
+            "\t\tport 9200;\n" +
+            "\t}\n" +
+            "\tnode node-01 {\n" +
+            "\t\thost 192.168.1.11;\n" +
+            "\t\tport 9200;\n" +
+            "\t}\n" +
+            "\tnode node-02 {\n" +
+            "\t\thost 192.168.1.12;\n" +
+            "\t\tport 9200;\n" +
+            "\t}\n" +
+            "}\n";
+
     @Test
     public void testParse() throws Exception {
+        this.testParse(Configuration.parse(ConfigurationParserTest.testConf));
+    }
 
-        String confStr = "# Example configuration of an elasticsearch database\n" +
-                "database testdb {\n" +
-                "\ttype elasticsearch;\n" +
-                "\tnode node-00 {\n" +
-                "\t\thost 192.168.1.10;\n" +
-                "\t\tport 9200;\n" +
-                "\t}\n" +
-                "\tnode node-01 {\n" +
-                "\t\thost 192.168.1.11;\n" +
-                "\t\tport 9200;\n" +
-                "\t}\n" +
-                "\tnode node-02 {\n" +
-                "\t\thost 192.168.1.12;\n" +
-                "\t\tport 9200;\n" +
-                "\t}\n" +
-                "}\n";
-        Configuration conf = Configuration.parse(confStr);
+    @org.junit.Test
+    public void testParseFile() throws Exception {
+        this.testParse(Configuration.parse(ConfigurationParserTest.createTestFile()));
+    }
 
+    @org.junit.Test
+    public void testParseURL() throws Exception {
+        this.testParse(Configuration.parse(ConfigurationParserTest.createTestFile().toURI().toURL()));
+    }
+
+    private static File createTestFile() throws Exception {
+
+        File file = File.createTempFile("test.", ".conf");
+        file.deleteOnExit();
+
+        Writer writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
+        writer.write(ConfigurationParserTest.testConf);
+        writer.close();
+
+        return file;
+
+    }
+
+    private void testParse(Configuration conf) throws Exception {
         assertEquals(conf.getString("database"), "testdb");
         assertEquals(conf.getString("database/type"), "elasticsearch");
         assertEquals(conf.getString("database/node:node-00"), "node-00");
@@ -38,7 +66,6 @@ public class ConfigurationParserTest {
         assertEquals(conf.getString("database/node:node-02"), "node-02");
         assertEquals(conf.getString("database/node:node-02/host"), "192.168.1.12");
         assertEquals(conf.getShort("database/node:node-02/port"), Short.valueOf((short)9200));
-
     }
 
     @org.junit.Test

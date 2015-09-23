@@ -1,6 +1,7 @@
 package com.github.twoleds.configuration;
 
 import java.io.*;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -13,12 +14,24 @@ public class Configuration {
     private final String value;
     private final List<Configuration> children;
 
+    /**
+     * It parses configuration values direct from the specified input string.
+     * If the input string is not valid it throws an exception.
+     *
+     * @throws ConfigurationException If the input string is not valid.
+     */
     public static Configuration parse(String configuration) throws ConfigurationException {
         try (ConfigurationParser parser = new ConfigurationParser(new StringReader(configuration))) {
             return parser.parse();
         }
     }
 
+    /**
+     * It parses configuration values from the specified input file. If the
+     * configuration from the file is not valid it throws an exception.
+     *
+     * @throws ConfigurationException If the input file is not valid.
+     */
     public static Configuration parse(File file) throws ConfigurationException {
         try (ConfigurationParser parser = new ConfigurationParser(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             return parser.parse();
@@ -27,6 +40,12 @@ public class Configuration {
         }
     }
 
+    /**
+     * It parses configuration values from the specified input URL. If the
+     * configuration from the URL is not valid it throws an exception.
+     *
+     * @throws ConfigurationException If the input file is not valid.
+     */
     public static Configuration parse(URL url) throws ConfigurationException {
         try (ConfigurationParser parser = new ConfigurationParser(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8))) {
             return parser.parse();
@@ -61,14 +80,32 @@ public class Configuration {
         return cond;
     }
 
+    /**
+     * It finds and returns a sub-tree of this configuration. If the sub-tree
+     * cannot be found by the specified ```query``` parameter it returns
+     * a ```null``` value.
+     */
     public Configuration query(String query) {
         return this.query(query, Function.identity());
     }
 
+    /**
+     * It finds, converts a returns a configuration value as a custom value.
+     * If the configuration value cannot be found by the specified ```query```
+     * parameter it returns a ```null``` value. For conversion is used the
+     * specified function from the parameter ```convertFunc```.
+     */
     public <T> T query(String query, Function<Configuration, T> convertFunc) {
         return this.query(query, convertFunc, null);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a custom value.
+     * If the configuration value cannot be found by the specified parameter
+     * ```query``` it returns a default value from the parameter
+     * ```defaultValue```. For conversion is used the specified function from
+     * the parameter ```convertFunc```.
+     */
     public <T> T query(String query, Function<Configuration, T> convertFunc, T defaultValue) {
         return this.query(query.split("/"), convertFunc, defaultValue);
     }
@@ -129,6 +166,11 @@ public class Configuration {
         return result;
     }
 
+    /**
+     * It converts and returns a configuration value as a boolean value. If
+     * the configuration value cannot be converted to a boolean value it
+     * throws a runtime exception.
+     */
     public Boolean getBoolean() {
         switch (this.value.toLowerCase()) {
             case "on":
@@ -140,110 +182,267 @@ public class Configuration {
             case "0":
                 return false;
             default:
-                return null;
+                throw new NumberFormatException();
         }
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a boolean
+     * value. If the configuration value cannot be found by the specified
+     * ```query``` parameter it returns the ```null``` value. If the
+     * configuration value cannot be converted to a boolean value it throws
+     * a runtime exception.
+     */
     public Boolean getBoolean(String query) {
         return this.getBoolean(query, null);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a boolean
+     * value. If the configuration value cannot be found by the specified
+     * ```query``` parameter it returns a default value from the parameter
+     * ```defaultValue```. If the configuration value cannot be converted
+     * to a boolean value it throws a runtime exception.
+     */
     public Boolean getBoolean(String query, Boolean defaultValue) {
         return this.query(query, Configuration::getBoolean, defaultValue);
     }
 
+    /**
+     * It converts and returns a configuration value as a byte value. If the
+     * configuration value cannot be converted to a byte value it throws
+     * a runtime exception.
+     */
     public Byte getByte() {
         return Byte.parseByte(this.value);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a byte value.
+     * If the configuration value cannot be found by the specified ```query```
+     * parameter it returns the ```null``` value. If the configuration value
+     * cannot be converted to a byte value it throws a runtime exception.
+     */
     public Byte getByte(String query) {
         return this.getByte(query, null);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a byte value.
+     * If the configuration value cannot be found by the specified ```query```
+     * parameter it returns a default value from the parameter
+     * ```defaultValue```. If the configuration value cannot be converted to
+     * a byte value it throws a runtime exception.
+     */
     public Byte getByte(String query, Byte defaultValue) {
         return this.query(query, Configuration::getByte, defaultValue);
     }
 
+    /**
+     * It converts and returns a configuration value as a character value.
+     */
     public Character getCharacter() {
         return this.value.charAt(0);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a character
+     * value. If the configuration value cannot be found by the specified
+     * ```query``` parameter it returns a ```null``` value.
+     */
     public Character getCharacter(String query) {
         return this.getCharacter(query, null);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a character
+     * value. If the configuration value cannot be found by the specified
+     * ```query``` parameter it returns a default value from the parameter
+     * ```defaultValue```.
+     */
     public Character getCharacter(String query, Character defaultValue) {
         return this.query(query, Configuration::getCharacter, defaultValue);
     }
 
+    /**
+     * It converts and returns a configuration value as a number with double
+     * precision (```double```). If the configuration value cannot be
+     * converted to a number it throws a runtime exception.
+     */
     public Double getDouble() {
         return Double.parseDouble(this.value);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a number with
+     * double precision (```double```). If the configuration value cannot be
+     * found by the specified ```query``` parameter it returns the ```null```
+     * value. If the configuration value cannot be converted to a number it
+     * throws a runtime exception.
+     */
     public Double getDouble(String query) {
         return this.getDouble(query, null);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a number with
+     * double precision (```double```). If the configuration value cannot be
+     * found by the specified ```query``` parameter it returns a default value
+     * from the parameter ```defaultValue```. If the configuration value
+     * cannot be converted to a number it throws a runtime exception.
+     */
     public Double getDouble(String query, Double defaultValue) {
         return this.query(query, Configuration::getDouble, defaultValue);
     }
 
+    /**
+     * It converts and returns a configuration value as a number with single
+     * precision (float). If the configuration value cannot be converted to an
+     * number it throws a runtime exception.
+     */
     public Float getFloat() {
         return Float.parseFloat(this.value);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a number with
+     * single precision (```float```). If the configuration value cannot be
+     * found by the specified ````query``` parameter it returns the ```null```
+     * value. If the configuration value cannot be converted to a number it
+     * throws a runtime exception.
+     */
     public Float getFloat(String query) {
         return this.getFloat(query, null);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a number with
+     * single precision (```float```). If the configuration value cannot be
+     * found by the specified ```query``` parameter it returns a default value
+     * from the parameter ```defaultValue```. If the configuration value
+     * cannot be converted to a number it throws a runtime exception.
+     */
     public Float getFloat(String query, Float defaultValue) {
         return this.query(query, Configuration::getFloat, defaultValue);
     }
 
+    /**
+     * It converts and returns a configuration value as an integer. If the
+     * configuration value cannot be converted to an integer it throws
+     * a runtime exception.
+     */
     public Integer getInteger() {
         return Integer.parseInt(this.value);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as an integer. If
+     * the configuration value cannot be found by the specified ```query```
+     * parameter it returns the ```null``` value. If the configuration value
+     * cannot be converted to an integer it throws a runtime exception.
+     */
     public Integer getInteger(String query) {
         return this.getInteger(query, null);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as an integer.
+     * If the configuration value cannot be found by the specified ```query```
+     * parameter it returns a default value from parameter ```defaultValue```.
+     * If the configuration value cannot be converted to an integer it throws
+     * a runtime exception.
+     */
     public Integer getInteger(String query, Integer defaultValue) {
         return this.query(query, Configuration::getInteger, defaultValue);
     }
 
+    /**
+     * It converts and returns a configuration value as a long integer. If
+     * the configuration value cannot be converted to a long integer it
+     * throws a runtime exception.
+     */
     public Long getLong() {
         return Long.parseLong(this.value);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as anlong
+     * integer. If the configuration value cannot be found by the specified
+     * ```query``` parameter it returns the ```null``` value. If the
+     * configuration value cannot be converted to a long integer it throws
+     * a runtime exception.
+     */
     public Long getLong(String query) {
         return this.getLong(query, null);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a long
+     * integer. If the configuration value cannot be found by the specified
+     * ```query``` parameter it returns a default value from parameter
+     * ```defaultValue```. If the configuration value cannot be converted to
+     * a long integer it throws a runtime exception.
+     */
     public Long getLong(String query, Long defaultValue) {
         return this.query(query, Configuration::getLong, defaultValue);
     }
 
+    /**
+     * It converts and returns a configuration value as a short integer. If
+     * the configuration value cannot be converted to a short integer it
+     * throws a runtime exception.
+     */
     public Short getShort() {
         return Short.parseShort(this.value);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a short
+     * integer. If the configuration value cannot be found by the specified
+     * ```query``` parameter it returns the ```null``` value. If the
+     * configuration value cannot be converted to a short integer it throws
+     * a runtime exception.
+     */
     public Short getShort(String query) {
         return this.getShort(query, null);
     }
 
+    /**
+     * It finds, converts and returns a configuration value as a short
+     * integer. If the configuration value cannot be found by the specified
+     * ```query``` parameter it returns a default value from the parameter
+     * ```defaultValue```. If the configuration value cannot be converted to
+     * a short integer it throws a runtime exception.
+     */
     public Short getShort(String query, Short defaultValue) {
         return this.query(query, Configuration::getShort, defaultValue);
     }
 
+    /**
+     * It returns a configuration value as a string value. It returns the
+     * configuration value as-is without any conversion.
+     */
     public String getString() {
         return this.value;
     }
 
+    /**
+     * It finds and returns a configuration value as a string value. If the
+     * configuration value cannot be found by the specified ```query```
+     * parameter it returns the ```null``` value. It returns the configuration
+     * value as-is without any conversion.
+     */
     public String getString(String query) {
         return this.getString(query, null);
     }
 
+    /**
+     * It finds and returns a configuration value as a string value. If the
+     * configuration value cannot be found by the specified ```query```
+     * parameter it returns a default value from the parameter
+     * ```defaultValue```. It returns the configuration value as-is without
+     * any conversion.
+     */
     public String getString(String query, String defaultValue) {
         return this.query(query, Configuration::getString, defaultValue);
     }
