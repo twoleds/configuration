@@ -58,6 +58,9 @@ Configuration of the database "testdb":
         Port: 9200
 ```
 
+## More examples
+* [Multiple database configurations](doc/example-1.md)
+
 ## License
 ```
 Copyright 2015 Jaroslav Kuba
