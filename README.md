@@ -60,7 +60,8 @@ Configuration of the database "testdb":
 
 ## More examples
 * [Multiple database configurations](doc/example-1.md)
-* [Getting a custom value](doc/example-2.md)
+* [Getting custom value](doc/example-2.md)
+* [Converting to custom structure](doc/example-3.md)
 
 ## License
 ```
